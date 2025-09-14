@@ -1,8 +1,9 @@
+/* Reset cơ bản */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -12,67 +13,59 @@ body {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  transition: background 0.5s ease;
 }
 
-.container {
+/* Container chính */
+.app-container {
+  background: white;
+  width: 100%;
+  max-width: 800px;
+  padding: 30px 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Trang welcome */
+.welcome {
   text-align: center;
   color: white;
-  max-width: 800px;
-  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
   padding: 60px 40px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-h1 {
+.welcome h1 {
   font-size: 3rem;
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-p {
-  font-size: 1.4rem;
+.welcome p {
+  font-size: 1.2rem;
   margin-bottom: 40px;
   line-height: 1.6;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .get-started-btn {
-  background: white;
-  color: #6a11cb;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
   border: none;
-  padding: 18px 50px;
-  font-size: 1.3rem;
+  padding: 15px 40px;
+  font-size: 1.2rem;
   font-weight: 600;
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .get-started-btn:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-.get-started-btn:active {
-  transform: translateY(0);
-}
-
-#todo-page {
-  width: 100%;
-  max-width: 800px;
-  background: white;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
+/* Todo page */
 .todo-header {
   display: flex;
   justify-content: space-between;
@@ -80,7 +73,12 @@ p {
   margin-bottom: 30px;
 }
 
-.back-btn {
+.todo-header h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.btn-back {
   background: #6a11cb;
   color: white;
   border: none;
@@ -90,82 +88,100 @@ p {
   font-weight: 600;
 }
 
-/* thêm style cho todo list */
+/* Form thêm task */
+.todo-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.todo-form input,
+.todo-form select {
+  flex: 1;
+  min-width: 150px;
+  padding: 8px 12px;
+  border: 2px solid #6a11cb;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.todo-form input:focus,
+.todo-form select:focus {
+  outline: none;
+  border-color: #2575fc;
+  box-shadow: 0 0 5px rgba(37,117,252,0.5);
+}
+
+.btn-add {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-add:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Task list */
 .todo-list {
   list-style: none;
   padding: 0;
+  margin-top: 20px;
 }
 
 .todo-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
+  padding: 12px 15px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f9f9f9;
 }
 
-.todo-item.done .todo-text {
+.todo-item.done {
   text-decoration: line-through;
-  color: gray;
+  color: #999;
+  background: #e9ecef;
 }
 
-.todo-actions button {
+/* Các nút trong task */
+.btn {
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
   margin-left: 8px;
 }
 
-.btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
+.btn-edit { background: #17a2b8; color: white; }
+.btn-delete { background: #dc3545; color: white; }
+.btn-clear { background: #28a745; color: white; }
 
-.btn-add {
-  background: #6a11cb;
-  color: white;
-}
-
-.btn-delete {
-  background: crimson;
-  color: white;
-}
-
-.btn-edit {
-  background: orange;
-  color: white;
-}
-
-.btn-save {
-  background: green;
-  color: white;
-}
-
-.btn-cancel {
-  background: gray;
-  color: white;
-}
-
-.empty-state {
-  text-align: center;
-  color: #777;
-  padding: 20px;
-}
-
+/* Responsive */
 @media (max-width: 768px) {
-  h1 {
+  .app-container {
+    padding: 20px;
+  }
+
+  .welcome h1 {
     font-size: 2.2rem;
   }
 
-  p {
-    font-size: 1.1rem;
+  .welcome p {
+    font-size: 1rem;
   }
 
-  .container {
-    padding: 40px 20px;
-  }
-
-  .get-started-btn {
-    padding: 15px 35px;
-    font-size: 1.1rem;
+  .todo-form {
+    flex-direction: column;
   }
 }
