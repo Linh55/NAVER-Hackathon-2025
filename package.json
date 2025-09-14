@@ -1,9 +1,7 @@
 {
-<<<<<<< HEAD
+
   "name": "my-todo-app",
-=======
-  "name": "hackathon-react-starter",
->>>>>>> aff305642fc91ffe31cbc44b06800b7a53ceee1b
+
   "private": true,
   "version": "0.0.0",
   "type": "module",
