@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import { useState, useEffect } from "react";
 
 type Todo = {
