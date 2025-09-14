@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 type Todo = {
@@ -12,22 +11,10 @@ type Todo = {
 // Component riêng cho Start Page
 function StartPage({ onStart }: { onStart: () => void }) {
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
+    <div className="start-page">
       <h1>Welcome to Your Todo App!</h1>
       <p>Manage your tasks efficiently and never miss a deadline!</p>
-      <button
-        style={{ 
-          padding: "12px 24px", 
-          fontSize: "18px", 
-          cursor: "pointer",
-          backgroundColor: "#4CAF50",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          marginTop: "20px"
-        }}
-        onClick={onStart}
-      >
+      <button className="get-started-button" onClick={onStart}>
         Get Started
       </button>
     </div>
@@ -62,117 +49,61 @@ function TodoItem({
   const isOverdue = new Date(todo.deadline) < new Date() && !todo.done;
 
   return (
-    <li
-      style={{
-        padding: "12px",
-        borderBottom: "1px solid #eee",
-        margin: "8px auto",
-        textAlign: "left",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        backgroundColor: todo.done ? "#e8f5e9" : isOverdue ? "#ffebee" : "#fff",
-        borderRadius: "4px",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-        maxWidth: "600px",
-        transition: "all 0.3s ease"
-      }}
-    >
-      <div style={{ flex: 1 }}>
+    <li className={`todo-item ${todo.done ? 'done' : ''} ${isOverdue ? 'overdue' : ''}`}>
+      <div className="todo-content">
         <input
           type="checkbox"
           checked={todo.done}
           onChange={() => onToggle(todo.id)}
-          style={{ marginRight: "12px" }}
+          className="todo-checkbox"
         />
         
         {isEditing ? (
-          <>
+          <div className="edit-form">
             <input
               value={editText}
               onChange={(e) => setEditText(e.target.value)}
-              style={{ 
-                padding: "6px", 
-                fontSize: "14px", 
-                marginBottom: "6px",
-                width: "100%",
-                maxWidth: "300px"
-              }}
+              className="edit-input"
+              placeholder="Task description"
             />
-            <br />
             <input
               type="datetime-local"
               value={editDeadline}
               onChange={(e) => setEditDeadline(e.target.value)}
-              style={{ 
-                padding: "6px", 
-                fontSize: "12px",
-                width: "100%",
-                maxWidth: "300px"
-              }}
+              className="edit-deadline"
             />
-          </>
+          </div>
         ) : (
-          <>
-            <strong style={{ textDecoration: todo.done ? "line-through" : "none" }}>
+          <div className="todo-info">
+            <span className={`todo-text ${todo.done ? 'completed' : ''}`}>
               {todo.text}
-            </strong>
-            <br />
-            <small>
-              Deadline: {new Date(todo.deadline).toLocaleString()}
-              {isOverdue && " (Overdue)"}
-            </small>
-            <br />
-            <small style={{ color: "#666" }}>
-              Created: {new Date(todo.createdAt).toLocaleString()}
-            </small>
-          </>
+            </span>
+            <div className="todo-dates">
+              <span className="deadline">
+                Deadline: {new Date(todo.deadline).toLocaleString()}
+                {isOverdue && <span className="overdue-label"> (Overdue)</span>}
+              </span>
+              <span className="created">
+                Created: {new Date(todo.createdAt).toLocaleString()}
+              </span>
+            </div>
+          </div>
         )}
       </div>
       
-      <div style={{ display: "flex", gap: "8px" }}>
+      <div className="todo-actions">
         {isEditing ? (
           <>
-            <button
-              onClick={handleSave}
-              style={{
-                padding: "6px 12px",
-                background: "#4CAF50",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer"
-              }}
-            >
+            <button onClick={handleSave} className="btn btn-save">
               Save
             </button>
-            <button
-              onClick={() => setIsEditing(false)}
-              style={{
-                padding: "6px 12px",
-                background: "#9e9e9e",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer"
-              }}
-            >
+            <button onClick={() => setIsEditing(false)} className="btn btn-cancel">
               Cancel
             </button>
           </>
         ) : (
           <>
-            <button
-              onClick={() => setIsEditing(true)}
-              style={{
-                padding: "6px 12px",
-                background: "#2196F3",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer"
-              }}
-            >
+            <button onClick={() => setIsEditing(true)} className="btn btn-edit">
               Edit
             </button>
             <button
@@ -181,14 +112,7 @@ function TodoItem({
                   onDelete(todo.id);
                 }
               }}
-              style={{
-                padding: "6px 12px",
-                background: "#f44336",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer"
-              }}
+              className="btn btn-delete"
             >
               Delete
             </button>
@@ -222,7 +146,10 @@ function App() {
   }, [todos]);
 
   const addTodo = () => {
-    if (input.trim() === "" || deadline.trim() === "") return;
+    if (input.trim() === "" || deadline.trim() === "") {
+      alert("Please enter both task description and deadline!");
+      return;
+    }
     
     const newTodo: Todo = {
       id: Date.now(),
@@ -254,7 +181,9 @@ function App() {
   };
 
   const clearCompleted = () => {
-    setTodos(todos.filter(todo => !todo.done));
+    if (window.confirm("Are you sure you want to clear all completed tasks?")) {
+      setTodos(todos.filter(todo => !todo.done));
+    }
   };
 
   // Lọc và sắp xếp todos
@@ -279,90 +208,48 @@ function App() {
   }
 
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+    <div className="app-container">
+      <div className="app-header">
         <h1>ToDo List</h1>
-        <button
-          onClick={() => setPage("start")}
-          style={{
-            padding: "8px 16px",
-            background: "#9e9e9e",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer"
-          }}
-        >
+        <button onClick={() => setPage("start")} className="btn btn-back">
           Back to Home
         </button>
       </div>
 
       {/* Form thêm công việc mới */}
-      <div style={{ 
-        padding: "16px", 
-        backgroundColor: "#f5f5f5", 
-        borderRadius: "4px",
-        marginBottom: "20px"
-      }}>
+      <div className="add-todo-form">
         <h3>Add New Task</h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div className="form-inputs">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter task..."
-            style={{ 
-              padding: "10px", 
-              fontSize: "16px",
-              border: "1px solid #ddd",
-              borderRadius: "4px"
-            }}
+            placeholder="Enter task description..."
+            className="task-input"
+            onKeyPress={(e) => e.key === 'Enter' && addTodo()}
           />
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <label style={{ fontWeight: "bold" }}>Deadline:</label>
+          <div className="deadline-input-container">
+            <label className="deadline-label">Deadline:</label>
             <input
               type="datetime-local"
               value={deadline}
               onChange={(e) => setDeadline(e.target.value)}
-              style={{ 
-                padding: "8px", 
-                fontSize: "14px",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                flex: 1
-              }}
+              className="deadline-input"
             />
           </div>
-          <button
-            onClick={addTodo}
-            style={{ 
-              padding: "10px 16px", 
-              fontSize: "16px", 
-              cursor: "pointer",
-              backgroundColor: "#4CAF50",
-              color: "white",
-              border: "none",
-              borderRadius: "4px"
-            }}
-          >
+          <button onClick={addTodo} className="btn btn-add">
             Add Task
           </button>
         </div>
       </div>
 
       {/* Bộ lọc và sắp xếp */}
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "space-between", 
-        marginBottom: "16px",
-        flexWrap: "wrap",
-        gap: "10px"
-      }}>
-        <div>
-          <span style={{ marginRight: "8px", fontWeight: "bold" }}>Filter:</span>
+      <div className="controls-container">
+        <div className="filter-control">
+          <span className="control-label">Filter:</span>
           <select 
             value={filter} 
             onChange={(e) => setFilter(e.target.value as any)}
-            style={{ padding: "6px", borderRadius: "4px" }}
+            className="control-select"
           >
             <option value="all">All</option>
             <option value="active">Active</option>
@@ -370,12 +257,12 @@ function App() {
           </select>
         </div>
         
-        <div>
-          <span style={{ marginRight: "8px", fontWeight: "bold" }}>Sort by:</span>
+        <div className="sort-control">
+          <span className="control-label">Sort by:</span>
           <select 
             value={sortBy} 
             onChange={(e) => setSortBy(e.target.value as any)}
-            style={{ padding: "6px", borderRadius: "4px" }}
+            className="control-select"
           >
             <option value="deadline">Deadline</option>
             <option value="created">Recently Added</option>
@@ -383,30 +270,25 @@ function App() {
           </select>
         </div>
         
-        <button
-          onClick={clearCompleted}
-          style={{
-            padding: "6px 12px",
-            background: "#ff9800",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer"
-          }}
-        >
+        <button onClick={clearCompleted} className="btn btn-clear">
           Clear Completed
         </button>
       </div>
 
       {/* Thống kê */}
-      <div style={{ marginBottom: "16px", color: "#666" }}>
+      <div className="stats-container">
         <strong>
           {todos.filter(t => !t.done).length} active / {todos.length} total tasks
         </strong>
+        {todos.filter(t => !t.done && new Date(t.deadline) < new Date()).length > 0 && (
+          <span className="overdue-stats">
+            {" "}({todos.filter(t => !t.done && new Date(t.deadline) < new Date()).length} overdue)
+          </span>
+        )}
       </div>
 
       {/* Danh sách công việc */}
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      <ul className="todo-list">
         {filteredAndSortedTodos.length > 0 ? (
           filteredAndSortedTodos.map((todo) => (
             <TodoItem
@@ -418,13 +300,7 @@ function App() {
             />
           ))
         ) : (
-          <li style={{ 
-            textAlign: "center", 
-            padding: "20px", 
-            color: "#666",
-            backgroundColor: "#f9f9f9",
-            borderRadius: "4px"
-          }}>
+          <li className="empty-state">
             {filter === "completed" 
               ? "No completed tasks yet." 
               : filter === "active" 
