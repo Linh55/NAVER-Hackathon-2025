@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 
 type Task = {
@@ -9,13 +9,13 @@ type Task = {
 };
 
 function App() {
+  const [page, setPage] = useState<"welcome" | "todo">("welcome");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [input, setInput] = useState("");
   const [deadline, setDeadline] = useState("");
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState("deadline");
 
-  // Thêm task
   const addTask = () => {
     if (!input.trim() || !deadline) return;
     const newTask: Task = {
@@ -29,7 +29,6 @@ function App() {
     setDeadline("");
   };
 
-  // Toggle trạng thái done
   const toggleTask = (id: number) => {
     setTasks(
       tasks.map((task) =>
@@ -38,19 +37,16 @@ function App() {
     );
   };
 
-  // Xóa task
   const deleteTask = (id: number) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  // Lọc task
   const filteredTasks = tasks.filter((task) => {
     if (filter === "completed") return task.completed;
     if (filter === "active") return !task.completed;
     return true;
   });
 
-  // Sắp xếp
   const sortedTasks = [...filteredTasks].sort((a, b) => {
     if (sort === "deadline") return a.deadline.localeCompare(b.deadline);
     return a.text.localeCompare(b.text);
@@ -58,76 +54,86 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* Form thêm task */}
-      <div className="add-task-section">
-        <h2>Add New Task</h2>
-
-        <div className="task-input">
-          <label>Task:</label>
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter task description..."
-          />
-        </div>
-
-        <div className="task-input">
-          <label>Deadline:</label>
-          <input
-            type="datetime-local"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
-          />
-        </div>
-
-        <div className="add-task-btn">
-          <button className="btn-add" onClick={addTask}>
-            Add Task
+      {page === "welcome" ? (
+        <div className="welcome">
+          <h1>Welcome to Your Todo App!</h1>
+          <p>Manage your tasks efficiently and never miss a deadline!</p>
+          <button className="btn-start" onClick={() => setPage("todo")}>
+            Get Started
           </button>
         </div>
-      </div>
+      ) : (
+        <div className="todo-page">
+          <div className="todo-header">
+            <h2>My Todo List</h2>
+            <button className="btn-back" onClick={() => setPage("welcome")}>
+              Back
+            </button>
+          </div>
 
-      {/* Filter & Sort */}
-      <div className="filter-sort">
-        <div>
-          <label>Filter: </label>
-          <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="all">All</option>
-            <option value="active">Active</option>
-            <option value="completed">Completed</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Sort by: </label>
-          <select value={sort} onChange={(e) => setSort(e.target.value)}>
-            <option value="deadline">Deadline</option>
-            <option value="name">Name</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Danh sách task */}
-      <ul className="todo-list">
-        {sortedTasks.map((task) => (
-          <li
-            key={task.id}
-            className={`todo-item ${task.completed ? "done" : ""}`}
-          >
-            <span className="todo-text" onClick={() => toggleTask(task.id)}>
-              {task.text} <br />
-              <small>Deadline: {task.deadline}</small>
-            </span>
-            <div>
-              <button className="btn btn-edit">Edit</button>
-              <button className="btn btn-delete" onClick={() => deleteTask(task.id)}>
-                Delete
+          <div className="add-task-section">
+            <h3>Add New Task</h3>
+            <div className="task-input">
+              <label>Task:</label>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Enter task description..."
+              />
+            </div>
+            <div className="task-input">
+              <label>Deadline:</label>
+              <input
+                type="datetime-local"
+                value={deadline}
+                onChange={(e) => setDeadline(e.target.value)}
+              />
+            </div>
+            <div className="add-task-btn">
+              <button className="btn-add" onClick={addTask}>
+                Add Task
               </button>
             </div>
-          </li>
-        ))}
-      </ul>
+          </div>
+
+          <div className="filter-sort">
+            <div>
+              <label>Filter: </label>
+              <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Sort by: </label>
+              <select value={sort} onChange={(e) => setSort(e.target.value)}>
+                <option value="deadline">Deadline</option>
+                <option value="name">Name</option>
+              </select>
+            </div>
+          </div>
+
+          <ul className="todo-list">
+            {sortedTasks.map((task) => (
+              <li key={task.id} className={`todo-item ${task.completed ? "done" : ""}`}>
+                <span className="todo-text" onClick={() => toggleTask(task.id)}>
+                  {task.text} <br />
+                  <small>Deadline: {task.deadline}</small>
+                </span>
+                <div>
+                  <button className="btn btn-edit">Edit</button>
+                  <button className="btn btn-delete" onClick={() => deleteTask(task.id)}>
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
