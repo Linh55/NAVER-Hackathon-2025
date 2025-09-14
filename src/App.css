@@ -23,7 +23,7 @@ body {
 }
 
 /* Tiêu đề */
-h1 {
+h1, h3 {
   text-align: center;
   color: white;
   margin-bottom: 1.5rem;
