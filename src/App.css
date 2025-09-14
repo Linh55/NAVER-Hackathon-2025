@@ -1,120 +1,141 @@
-/* App.css */
-
-/* Toàn bộ trang */
+/* Tổng thể */
 body {
+  font-family: Arial, sans-serif;
+  background: #003366; /* xanh đậm */
   margin: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #333;
+  padding: 0;
 }
 
-/* Container chính */
 .container {
-  background: white;
+  max-width: 700px;
+  margin: 2rem auto;
   padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  width: 450px;
-  max-width: 95%;
+  background: #004080; /* xanh đậm hơn nền */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  color: white; /* chữ mặc định trắng */
 }
 
 /* Tiêu đề */
-h1, h3 {
+h1 {
   text-align: center;
   color: white;
   margin-bottom: 1.5rem;
 }
 
-/* Tiêu đề phụ (Add New Task) */
 h2 {
-  color: white !important;   
+  color: white !important;
   margin-bottom: 1rem;
 }
 
-/* Label */
+/* Nút chung */
+button {
+  background: #0066cc;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #0055aa;
+}
+
+/* Form thêm task */
+.todo-form {
+  margin-bottom: 1.5rem;
+}
+
 label {
   font-weight: bold;
-  margin-top: 1rem;
   display: block;
+  margin-top: 1rem;
   color: white;
 }
 
-/* Input & Select */
 input, select {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 2px solid #6a11cb;
-  margin: 8px 0 16px 0;
-  font-size: 1rem;
-
-  background: #003366;   /* xanh đậm */
-  color: white;          /* chữ trắng */
-}
-
-input::placeholder {
-  color: #ddd;           /* placeholder xám nhạt */
-}
-
-select option {
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: none;
+  border-radius: 6px;
   background: #003366;
   color: white;
 }
 
-/* Focus */
-input:focus, select:focus {
-  outline: none;
-  border: 2px solid #00ccff;
-  box-shadow: 0 0 8px rgba(0, 204, 255, 0.5);
+input::placeholder {
+  color: #cccccc;
 }
 
-/* Button */
-button {
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s ease;
+/* Controls (filter + sort) */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
-button:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
+.controls label {
+  margin-right: 0.5rem;
 }
 
 /* Danh sách task */
 ul {
   list-style: none;
   padding: 0;
-  margin-top: 1rem;
 }
 
 li {
+  background: #0055aa;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f4f4f4;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: 0.3s ease;
 }
 
+/* Nội dung task */
+.todo-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  flex: 1;
+}
+
+.todo-info span {
+  font-weight: bold;
+  display: block;
+}
+
+.todo-info small {
+  display: block;
+  font-size: 0.8rem;
+  color: #eeeeee;
+  margin-top: 0.2rem;
+}
+
+/* Task hoàn thành */
 li.done {
-  background: #d4edda;
-  color: #155724;
+  background: #228B22; /* xanh lá */
   text-decoration: line-through;
+  color: #dddddd;
 }
 
 li.pending {
-  background: #f8d7da;
-  color: #721c24;
+  background: #8B0000; /* đỏ đậm */
+  color: white;
+}
+
+/* Action nút Edit/Delete */
+.todo-actions button {
+  margin-left: 0.5rem;
+}
+
+/* Form edit trong task */
+.edit-form input {
+  margin-bottom: 0.5rem;
+  width: 100%;
 }
