@@ -1,4 +1,4 @@
-/* Reset cơ bản */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -15,7 +15,6 @@ body {
   padding: 20px;
 }
 
-/* Container chính */
 .app-container {
   background: white;
   width: 100%;
@@ -25,100 +24,55 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Trang welcome */
-.welcome {
-  text-align: center;
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 60px 40px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+/* === FORM THÊM TASK === */
+.add-task-section {
+  margin-bottom: 25px;
 }
 
-.welcome h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.welcome p {
-  font-size: 1.2rem;
-  margin-bottom: 40px;
-  line-height: 1.6;
-}
-
-.get-started-btn {
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: white;
-  border: none;
-  padding: 15px 40px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.get-started-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-}
-
-/* Todo page */
-.todo-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.todo-header h1 {
-  font-size: 2rem;
+.add-task-section h2 {
+  font-size: 1.4rem;
   color: #333;
+  margin-bottom: 15px;
 }
 
-.btn-back {
-  background: #6a11cb;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 50px;
-  cursor: pointer;
+.task-input {
+  margin-bottom: 15px;
+}
+
+.task-input label {
+  display: block;
   font-weight: 600;
+  margin-bottom: 6px;
+  color: #222;
 }
 
-/* Form thêm task */
-.todo-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.todo-form input,
-.todo-form select {
-  flex: 1;
-  min-width: 150px;
-  padding: 8px 12px;
+.task-input input {
+  width: 100%;
+  padding: 10px 12px;
   border: 2px solid #6a11cb;
   border-radius: 8px;
   font-size: 1rem;
   color: #333;
 }
 
-.todo-form input:focus,
-.todo-form select:focus {
+.task-input input:focus {
   outline: none;
   border-color: #2575fc;
   box-shadow: 0 0 5px rgba(37,117,252,0.5);
+}
+
+/* nút Add Task sang phải */
+.add-task-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 
 .btn-add {
   background: linear-gradient(135deg, #6a11cb, #2575fc);
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 25px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
@@ -129,7 +83,23 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* Task list */
+/* === FILTER & SORT === */
+.filter-sort {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.filter-sort select {
+  padding: 8px 12px;
+  border: 2px solid #6a11cb;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* === DANH SÁCH TASK === */
 .todo-list {
   list-style: none;
   padding: 0;
@@ -140,20 +110,25 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 15px;
+  padding: 14px 18px;
   margin-bottom: 12px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background: #f9f9f9;
 }
 
-.todo-item.done {
-  text-decoration: line-through;
-  color: #999;
-  background: #e9ecef;
+.todo-text {
+  flex: 1;
+  color: #004085; /* xanh đậm */
+  font-size: 1rem;
 }
 
-/* Các nút trong task */
+/* khi task done */
+.todo-item.done .todo-text {
+  text-decoration: line-through;
+  color: #999;
+}
+
 .btn {
   border: none;
   padding: 6px 14px;
@@ -166,22 +141,3 @@ body {
 .btn-edit { background: #17a2b8; color: white; }
 .btn-delete { background: #dc3545; color: white; }
 .btn-clear { background: #28a745; color: white; }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .app-container {
-    padding: 20px;
-  }
-
-  .welcome h1 {
-    font-size: 2.2rem;
-  }
-
-  .welcome p {
-    font-size: 1rem;
-  }
-
-  .todo-form {
-    flex-direction: column;
-  }
-}
