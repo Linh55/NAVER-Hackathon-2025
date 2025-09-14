@@ -23,9 +23,15 @@ body {
 }
 
 /* Tiêu đề */
-h1, h2 {
+h1 {
   text-align: center;
   color: white;
+  margin-bottom: 1.5rem;
+}
+
+/* Tiêu đề phụ (Add New Task) */
+h2 {
+  color: white !important;   
   margin-bottom: 1rem;
 }
 
