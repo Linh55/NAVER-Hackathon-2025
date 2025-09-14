@@ -25,7 +25,7 @@ body {
 /* Tiêu đề */
 h1, h2 {
   text-align: center;
-  color: #222;
+  color: white;
   margin-bottom: 1rem;
 }
 
@@ -34,7 +34,7 @@ label {
   font-weight: bold;
   margin-top: 1rem;
   display: block;
-  color: #222;
+  color: white;
 }
 
 /* Input & Select */
