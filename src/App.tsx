@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./App.css";
 
 type Todo = {
@@ -95,6 +95,47 @@ function TodoItem({
   );
 }
 
+// Pagination Component
+function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}) {
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  
+  return (
+    <div className="pagination">
+      <button
+        disabled={currentPage === 1}
+        onClick={() => onPageChange(currentPage - 1)}
+      >
+        Previous
+      </button>
+      
+      {pages.map(page => (
+        <button
+          key={page}
+          className={currentPage === page ? "active" : ""}
+          onClick={() => onPageChange(page)}
+        >
+          {page}
+        </button>
+      ))}
+      
+      <button
+        disabled={currentPage === totalPages}
+        onClick={() => onPageChange(currentPage + 1)}
+      >
+        Next
+      </button>
+    </div>
+  );
+}
+
 // Main App
 function App() {
   const [page, setPage] = useState<"start" | "todo">("start");
@@ -105,6 +146,8 @@ function App() {
   const [sortBy, setSortBy] = useState<"deadline" | "created" | "text">(
     "deadline"
   );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Số items mỗi trang
 
   useEffect(() => {
     const saved = localStorage.getItem("todos");
@@ -143,26 +186,39 @@ function App() {
   const editTodo = (updated: Todo) =>
     setTodos(todos.map((t) => (t.id === updated.id ? updated : t)));
 
-  const filteredTodos = todos
-    .filter((t) => {
+  // Sử dụng useMemo để tránh tính toán lại mỗi lần render
+  const filteredAndSortedTodos = useMemo(() => {
+    const filtered = todos.filter((t) => {
       if (filter === "active") return !t.done;
       if (filter === "completed") return t.done;
       return true;
-    })
-    .sort((a, b) => {
+    }).sort((a, b) => {
       if (sortBy === "deadline")
         return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
       if (sortBy === "created")
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       return a.text.localeCompare(b.text);
     });
+    
+    return filtered;
+  }, [todos, filter, sortBy]);
+
+  // Tính toán dữ liệu phân trang
+  const totalPages = Math.ceil(filteredAndSortedTodos.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentTodos = filteredAndSortedTodos.slice(startIndex, startIndex + itemsPerPage);
+
+  // Reset về trang 1 khi filter hoặc sort thay đổi
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter, sortBy]);
 
   if (page === "start") return <StartPage onStart={() => setPage("todo")} />;
 
   return (
     <div className="container">
       <h1>My Todo List</h1>
-      <button onClick={() => setPage("start")}>Back</button>
+      <button onClick={() => setPage("start")}>Back to Start</button>
 
       <div className="todo-form">
         <h2>Add New Task</h2>
@@ -182,32 +238,57 @@ function App() {
       </div>
 
       <div className="controls">
-        <label>Filter:</label>
-        <select value={filter} onChange={(e) => setFilter(e.target.value as any)}>
-          <option value="all">All</option>
-          <option value="active">Active</option>
-          <option value="completed">Completed</option>
-        </select>
+        <div className="control-group">
+          <label>Filter:</label>
+          <select value={filter} onChange={(e) => setFilter(e.target.value as any)}>
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
 
-        <label>Sort by:</label>
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value as any)}>
-          <option value="deadline">Deadline</option>
-          <option value="created">Recently Added</option>
-          <option value="text">Text</option>
-        </select>
+        <div className="control-group">
+          <label>Sort by:</label>
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value as any)}>
+            <option value="deadline">Deadline</option>
+            <option value="created">Recently Added</option>
+            <option value="text">Text</option>
+          </select>
+        </div>
+
+        <div className="control-group">
+          <label>Items per page:</label>
+          <span className="items-per-page">{itemsPerPage}</span>
+        </div>
       </div>
 
-      <ul>
-        {filteredTodos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onToggle={toggleDone}
-            onDelete={deleteTodo}
-            onEdit={editTodo}
-          />
-        ))}
+      <div className="todo-stats">
+        <p>Showing {currentTodos.length} of {filteredAndSortedTodos.length} tasks</p>
+      </div>
+
+      <ul className="todo-list">
+        {currentTodos.length > 0 ? (
+          currentTodos.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onToggle={toggleDone}
+              onDelete={deleteTodo}
+              onEdit={editTodo}
+            />
+          ))
+        ) : (
+          <li className="no-tasks">No tasks found</li>
+        )}
       </ul>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 }
