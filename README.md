@@ -9,12 +9,19 @@
 **How to install and run your project:**  
 ✍️  
 1. Download or clone this project from GitHub.
+   
    git clone https://github.com/Linh55/NAVER-Hackathon-2025.git
-   cd <your-repo-name>
+   
+   cd NAVER-Hackathon-2025
+   
 2. Run the commands:
-   npm install  
+   
+   npm install
+   
    npm run dev
+   
 3. Open the link in the terminal (usually http://localhost:5173).
+   
 4. Or just visit the deployed version on Vercel: https://naver-hackathon-2025.vercel.app
 
 ## 🔗 Deployed Web URL or APK file
@@ -89,6 +96,7 @@
       Sorting is available by deadline, createdAt (recently added), or text (alphabetical).
 
    + Edit & Delete Functions
+     
      Delete removes the task permanently.
 
 - UI Flow: Start page → Todo list page → Add/manage tasks → Save state in localStorage.
