@@ -9,7 +9,7 @@
 **How to install and run your project:**  
 ✍️  
 1. Download or clone this project from GitHub.
-   git clone https://github.com/<your-username>/<your-repo-name>.git
+   git clone https://github.com/Linh55/NAVER-Hackathon-2025.git
    cd <your-repo-name>
 2. Run the commands:
    npm install  
