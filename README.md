@@ -85,9 +85,7 @@
 
 - Implementation Methods:
   
-  + The app is structured around functional components: StartPage (simple welcome screen); App (main container); TodoItem (represents each
-
-  task with editing, deleting, and completion toggling features)
+  + The app is structured around functional components: StartPage (simple welcome screen); App (main container); TodoItem (represents each task with editing, deleting, and completion toggling features)
   
   + Filtering & Sorting:
 
